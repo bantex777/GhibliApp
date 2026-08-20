@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Films",
+    "info": "30",
+    "imagePath": "assets/images/film.png"
+  },
+  {
+    "id": 2,
+    "title": "People",
+    "info": "30",
+    "imagePath": "assets/images/people.png"
+  },
+  {
+    "id": 3,
+    "title": "Locations",
+    "info": "30",
+    "imagePath": "assets/images/location.png"
+  },
+  {
+    "id": 4,
+    "title": "Species",
+    "info": "30",
+    "imagePath": "assets/images/species.png"
+  },
+  {
+    "id": 6,
+    "title": "Vehicles",
+    "info": "30",
+    "imagePath": "assets/images/Car.png"
+  },
+  {
+    "id": 6,
+    "title": "Random",
+    "info": "30",
+    "imagePath": "assets/images/film.png"
+  }
+]
