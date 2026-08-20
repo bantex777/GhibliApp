@@ -20,6 +20,13 @@ class GetFilmDetails {
     required this.carRepo,
   });
 
+  String parseURL(String url) {
+    final uri = Uri.parse(url);
+    final lastSegment = uri.pathSegments.isEmpty ? uri.pathSegments.last : '';
+
+    return lastSegment;
+  }
+
   Future<FilmDetails> call(String id) async {
     final film = await filmRepo.getFilm(id);
 
@@ -28,12 +35,9 @@ class GetFilmDetails {
     print('PEOPLE: ${film.people}');
     final people = await Future.wait(
       film.people.map((url) async {
-        final uri = Uri.parse(url);
-        final lastSegment = uri.pathSegments.isEmpty
-            ? uri.pathSegments.last
-            : '';
+        final parse = parseURL(url);
 
-        if (lastSegment.isNotEmpty && lastSegment != 'people') {
+        if (parse.isNotEmpty && parse != 'people') {
           final people = await peopleRepo.getPeople(url);
 
           return [people];
@@ -54,20 +58,29 @@ class GetFilmDetails {
 
     print('SPECIES: ${film.species}');
     final species = await Future.wait(
-      film.species.map((url) => speciesRepo.geSpecy(url)),
+      film.species.map((url) async {
+        final parse = parseURL(url);
+
+        if (parse.isNotEmpty && parse != 'vehicles') {
+          final people = await speciesRepo.geSpecy(url);
+
+          return [people];
+        } else {
+          return await speciesRepo.getSpecies();
+        }
+      }),
     );
+
+    final flatSpecies = species.expand((list) => list).toList();
 
     print('SPECIES OK');
 
     print('VEHICLES: ${film.vehicles}');
     final vehicles = await Future.wait(
       film.people.map((url) async {
-        final uri = Uri.parse(url);
-        final lastSegment = uri.pathSegments.isEmpty
-            ? uri.pathSegments.last
-            : '';
+        final parse = parseURL(url);
 
-        if (lastSegment.isNotEmpty && lastSegment != 'vehicles') {
+        if (parse.isNotEmpty && parse != 'vehicles') {
           final people = await carRepo.getCar(url);
 
           return [people];
@@ -85,7 +98,7 @@ class GetFilmDetails {
       film: film,
       people: peopleFlat,
       locations: locations,
-      species: species,
+      species: flatSpecies,
       vehicles: carFlat,
     );
   }

@@ -101,49 +101,150 @@ class _InfoScreenState extends State<InfoScreen> {
                               SubText(text: 'Key People / Characters'),
                             ],
                           ),
-
-                          SizedBox(height: 10.h),
-
-                          ListView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: filmDetail.people.length,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(6),
+                          SizedBox(height: 2.h),
+                          SizedBox(
+                            height: 40.h,
+                            child: ListView.builder(
+                              physics: PageScrollPhysics(),
+                              itemCount: filmDetail.people.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  height: 50,
+                                  margin: EdgeInsets.all(6),
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(6),
+                                    ),
+                                    border: Border.all(
+                                      color: const Color(0xFFF6F1ED),
+                                    ),
                                   ),
-                                  border: Border.all(
-                                    color: const Color(0xFFF6F1ED),
+                                  child: SubText(
+                                    text: filmDetail.people[index].name,
                                   ),
-                                ),
-                                child: Text(filmDetail.people[index].name),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
-                      Row(
+
+                      Column(
                         children: [
-                          Icon(Icons.people),
-                          SizedBox(width: 5.w),
-                          SubText(text: 'Key Locations'),
+                          Row(
+                            children: [
+                              Icon(Icons.people),
+                              SizedBox(width: 5.w),
+                              SubText(text: 'Key Locations'),
+                            ],
+                          ),
+                          SizedBox(height: 2.h),
+                          SizedBox(
+                            height: 40.h,
+                            child: ListView.builder(
+                              physics: PageScrollPhysics(),
+                              itemCount: filmDetail.locations.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  height: 50,
+                                  margin: EdgeInsets.all(6),
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(6),
+                                    ),
+                                    border: Border.all(
+                                      color: const Color(0xFFF6F1ED),
+                                    ),
+                                  ),
+                                  child: SubText(
+                                    text: filmDetail.locations[index].name,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ],
                       ),
-                      Row(
+
+                      Column(
                         children: [
-                          Icon(Icons.people),
-                          SizedBox(width: 5.w),
-                          SubText(text: 'Species / Creatures'),
+                          Row(
+                            children: [
+                              Icon(Icons.people),
+                              SizedBox(width: 5.w),
+                              SubText(text: 'Species / Creatures'),
+                            ],
+                          ),
+                          SizedBox(height: 2.h),
+                          SizedBox(
+                            height: 40.h,
+                            child: ListView.builder(
+                              physics: PageScrollPhysics(),
+                              itemCount: filmDetail.species.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  height: 50,
+                                  margin: EdgeInsets.all(6),
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(6),
+                                    ),
+                                    border: Border.all(
+                                      color: const Color(0xFFF6F1ED),
+                                    ),
+                                  ),
+                                  child: SubText(
+                                    text: filmDetail.species[index].name,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ],
                       ),
-                      Row(
+
+                      Column(
                         children: [
-                          Icon(Icons.people),
-                          SizedBox(width: 5.w),
-                          SubText(text: 'Feature Vehicles'),
+                          Row(
+                            children: [
+                              Icon(Icons.people),
+                              SizedBox(width: 5.w),
+                              SubText(text: 'Feature Vehicles'),
+                            ],
+                          ),
+                          SizedBox(height: 2.h),
+                          SizedBox(
+                            height: 40.h,
+                            child: ListView.builder(
+                              physics: PageScrollPhysics(),
+                              itemCount: filmDetail.vehicles.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  height: 50,
+                                  margin: EdgeInsets.all(6),
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(6),
+                                    ),
+                                    border: Border.all(
+                                      color: const Color(0xFFF6F1ED),
+                                    ),
+                                  ),
+                                  child: SubText(
+                                    text: filmDetail.vehicles[index].name,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
                         ],
                       ),
                     ],
