@@ -4,24 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:studioghibli/controller/loadMenu.dart';
-import 'package:studioghibli/core/network/dio_client.dart';
+import 'package:studioghibli/core/di/injection.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmBloc.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmEvent.dart';
-import 'package:studioghibli/data/repository/film/bloc/FilmRepository.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmState.dart';
 import 'package:studioghibli/data/repository/location/LocationBloc.dart';
 import 'package:studioghibli/data/repository/location/LocationEvent.dart';
-import 'package:studioghibli/data/repository/location/LocationRepository.dart';
 import 'package:studioghibli/data/repository/people/PeopleBloc.dart';
 import 'package:studioghibli/data/repository/people/PeopleEvent.dart';
-import 'package:studioghibli/data/repository/people/PeopleRepository.dart';
 import 'package:studioghibli/data/repository/species/SpeciesBloc.dart';
 import 'package:studioghibli/data/repository/species/SpeciesEvent.dart';
-import 'package:studioghibli/data/repository/species/SpeciesRepository.dart';
 import 'package:studioghibli/data/repository/vehicles/CarBloc.dart';
-import 'package:studioghibli/data/repository/vehicles/CarRepository.dart';
 import 'package:studioghibli/data/repository/vehicles/CardEvent.dart';
-import 'package:studioghibli/data/repository/film/useCase/getFilmDetails.dart';
 import 'package:studioghibli/core/contastants/constant.dart';
 import 'package:studioghibli/widgets/components/Cards/GridCards/FilmCard.dart';
 import 'package:studioghibli/widgets/components/Cards/GridCards/LocationCard.dart';
@@ -41,37 +35,21 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dio = DioClient.create();
-
-    final filmRepo = FilmRepository(dio);
-    final peopleRepo = Peoplerepository(dio);
-    final locationRepo = LocationRepository(dio);
-    final speciesRepo = Speciesrepository(dio);
-    final carRepo = CarRepository(dio);
-    final filmDeilsCase = GetFilmDetails(
-      filmRepo: filmRepo,
-      peopleRepo: peopleRepo,
-      locationRepo: locationRepo,
-      speciesRepo: speciesRepo,
-      carRepo: carRepo,
-    );
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) =>
-              FilmBloc(filmRepo, filmDeilsCase)..add(LoadFilms()),
+          create: (context) => locator<FilmBloc>()..add(LoadFilms()),
         ),
         BlocProvider(
-          create: (context) => PeopleBloc(peopleRepo)..add(LoadPeople()),
+          create: (context) => locator<PeopleBloc>()..add(LoadPeople()),
         ),
         BlocProvider(
-          create: (context) => LocationBloc(locationRepo)..add(LoadLocation()),
+          create: (context) => locator<LocationBloc>()..add(LoadLocation()),
         ),
         BlocProvider(
-          create: (context) => SpeciesBloc(speciesRepo)..add(LoadSpecies()),
+          create: (context) => locator<SpeciesBloc>()..add(LoadSpecies()),
         ),
-        BlocProvider(create: (context) => CarBloc(carRepo)..add(LoadCars())),
+        BlocProvider(create: (context) => locator<CarBloc>()..add(LoadCars())),
       ],
       child: Scaffold(
         bottomNavigationBar: MyBottomNavigationBar(currentIndex: 0),

@@ -1,10 +1,12 @@
 import 'package:device_preview_plus/device_preview_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:studioghibli/core/di/injection.dart';
 import 'package:studioghibli/core/theme/app_colors.dart';
 import 'package:studioghibli/widgets/homeScreen.dart';
 
 void main() {
+  setupDI();
   runApp(
     DevicePreview(
       enabled: true,
