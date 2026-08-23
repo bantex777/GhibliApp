@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmEvent.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmRepository.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmState.dart';
-import 'package:studioghibli/data/repository/film/useCase/getFilmDetails.dart';
+import 'package:studioghibli/data/repository/film/use_case/getFilmDetails.dart';
 
 class FilmBloc extends Bloc<FilmEvent, FilmState> {
   final FilmRepository repository;

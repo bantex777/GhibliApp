@@ -19,5 +19,3 @@ class FilmDetails {
     this.vehicles = const [],
   });
 }
-
-class Person {}

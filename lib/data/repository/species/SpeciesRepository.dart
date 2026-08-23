@@ -13,6 +13,7 @@ class Speciesrepository {
   }
 
   Future<Species> geSpecy(String url) async {
+    print("ahahaha >>>>>>> $url >>>>>>>>>>>>>>>>>");
     final response = await dio.get(url);
     return Species.toJson(response.data);
   }

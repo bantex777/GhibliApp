@@ -8,15 +8,17 @@ class FilmRepository {
 
   Future<List<Film>> getFilms() async {
     final response = await dio.get('/films');
-    print('TYPE:  >>>>>>>>>> ${response.data.runtimeType}');
-    print('DATA: >>>>>>>>>>> ${response.data} ');
     return (response.data as List).map((json) => Film.toJson(json)).toList();
   }
 
   Future<Film> getFilm(String id) async {
     final response = await dio.get('/films/$id');
-    print('TYPE: >>>>>>>> >>>>>> ${response.data.runtimeType}');
-    print('DATA: >>>>>>>> >>>>>> ${response.data} ');
+    return Film.toJson(response.data);
+  }
+
+  Future<Film> getFilmsByUrl(String url) async {
+    final response = await dio.get(url);
+
     return Film.toJson(response.data);
   }
 }

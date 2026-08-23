@@ -1,6 +1,7 @@
+import 'package:studioghibli/controller/parseUrl.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmRepository.dart';
-import 'package:studioghibli/data/repository/location/LocationRepository.dart';
-import 'package:studioghibli/data/repository/people/PeopleRepository.dart';
+import 'package:studioghibli/data/repository/location/bloc/LocationRepository.dart';
+import 'package:studioghibli/data/repository/people/bloc/PeopleRepository.dart';
 import 'package:studioghibli/data/repository/species/SpeciesRepository.dart';
 import 'package:studioghibli/data/repository/vehicles/CarRepository.dart';
 import 'package:studioghibli/domain/entities/filmDetails.dart';
@@ -20,22 +21,12 @@ class GetFilmDetails {
     required this.carRepo,
   });
 
-  String parseURL(String url) {
-    final uri = Uri.parse(url);
-    final lastSegment = uri.pathSegments.isEmpty ? uri.pathSegments.last : '';
-
-    return lastSegment;
-  }
-
   Future<FilmDetails> call(String id) async {
     final film = await filmRepo.getFilm(id);
 
-    print('FILM OK: ${film.title}');
-
-    print('PEOPLE: ${film.people}');
     final people = await Future.wait(
       film.people.map((url) async {
-        final parse = parseURL(url);
+        final parse = ParseUrl(url);
 
         if (parse.isNotEmpty && parse != 'people') {
           final people = await peopleRepo.getPeople(url);
@@ -49,17 +40,11 @@ class GetFilmDetails {
 
     final peopleFlat = people.expand((list) => list).toList();
 
-    print('PEOPLE OK');
-
-    print('LOCATIONS: ${film.locations}');
     final locations = await locationRepo.getLocationsByFilm(film.url);
 
-    print('LOCATIONS OK');
-
-    print('SPECIES: ${film.species}');
     final species = await Future.wait(
       film.species.map((url) async {
-        final parse = parseURL(url);
+        final parse = ParseUrl(url);
 
         if (parse.isNotEmpty && parse != 'vehicles') {
           final people = await speciesRepo.geSpecy(url);
@@ -73,12 +58,9 @@ class GetFilmDetails {
 
     final flatSpecies = species.expand((list) => list).toList();
 
-    print('SPECIES OK');
-
-    print('VEHICLES: ${film.vehicles}');
     final vehicles = await Future.wait(
       film.people.map((url) async {
-        final parse = parseURL(url);
+        final parse = ParseUrl(url);
 
         if (parse.isNotEmpty && parse != 'vehicles') {
           final people = await carRepo.getCar(url);
@@ -91,8 +73,6 @@ class GetFilmDetails {
     );
 
     final carFlat = vehicles.expand((list) => list).toList();
-
-    print('VEHICLES OK');
 
     return FilmDetails(
       film: film,

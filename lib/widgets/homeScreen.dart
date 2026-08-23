@@ -8,10 +8,10 @@ import 'package:studioghibli/core/di/injection.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmBloc.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmEvent.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmState.dart';
-import 'package:studioghibli/data/repository/location/LocationBloc.dart';
-import 'package:studioghibli/data/repository/location/LocationEvent.dart';
-import 'package:studioghibli/data/repository/people/PeopleBloc.dart';
-import 'package:studioghibli/data/repository/people/PeopleEvent.dart';
+import 'package:studioghibli/data/repository/location/bloc/LocationBloc.dart';
+import 'package:studioghibli/data/repository/location/bloc/LocationEvent.dart';
+import 'package:studioghibli/data/repository/people/bloc/PeopleBloc.dart';
+import 'package:studioghibli/data/repository/people/bloc/PeopleEvent.dart';
 import 'package:studioghibli/data/repository/species/SpeciesBloc.dart';
 import 'package:studioghibli/data/repository/species/SpeciesEvent.dart';
 import 'package:studioghibli/data/repository/vehicles/CarBloc.dart';
@@ -44,7 +44,7 @@ class Home extends StatelessWidget {
           create: (context) => locator<PeopleBloc>()..add(LoadPeople()),
         ),
         BlocProvider(
-          create: (context) => locator<LocationBloc>()..add(LoadLocation()),
+          create: (context) => locator<LocationBloc>()..add(LoadLocations()),
         ),
         BlocProvider(
           create: (context) => locator<SpeciesBloc>()..add(LoadSpecies()),
@@ -152,11 +152,8 @@ class Home extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (_) => BlocProvider.value(
-                                          value: context.read<PeopleBloc>(),
-                                          child: ListScreen(
-                                            category: CategoryType.people,
-                                          ),
+                                        builder: (_) => ListScreen(
+                                          category: CategoryType.people,
                                         ),
                                       ),
                                     );
@@ -166,10 +163,23 @@ class Home extends StatelessWidget {
                                     imagePath: menuData[1].imageUrl,
                                   ),
                                 ),
-                                LocationCard(
-                                  title: menuData[2].title,
-                                  imagePath: menuData[2].imageUrl,
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => ListScreen(
+                                          category: CategoryType.locations,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: LocationCard(
+                                    title: menuData[2].title,
+                                    imagePath: menuData[2].imageUrl,
+                                  ),
                                 ),
+
                                 SpeciesCard(
                                   title: menuData[3].title,
                                   imagePath: menuData[3].imageUrl,

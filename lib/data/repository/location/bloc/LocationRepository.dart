@@ -8,6 +8,7 @@ class LocationRepository {
 
   Future<List<Location>> getLocations() async {
     final response = await dio.get('/locations');
+    print(">>>>>>>>>>>> $response");
 
     return (response.data as List)
         .map((json) => Location.toJson(json))
@@ -16,6 +17,11 @@ class LocationRepository {
 
   Future<Location> getLocation(String url) async {
     final response = await dio.get(url);
+    return Location.toJson(response.data);
+  }
+
+  Future<Location> getLocationById(String id) async {
+    final response = await dio.get('/locations/$id');
     return Location.toJson(response.data);
   }
 

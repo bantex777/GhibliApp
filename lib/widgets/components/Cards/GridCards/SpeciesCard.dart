@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:studioghibli/data/repository/location/LocationBloc.dart';
-import 'package:studioghibli/data/repository/location/LocationState.dart';
-import 'package:studioghibli/data/repository/people/PeopleBloc.dart';
-import 'package:studioghibli/data/repository/people/PeopleState.dart';
+import 'package:studioghibli/data/repository/location/bloc/LocationBloc.dart';
+import 'package:studioghibli/data/repository/location/bloc/LocationState.dart';
+import 'package:studioghibli/data/repository/people/bloc/PeopleBloc.dart';
+import 'package:studioghibli/data/repository/people/bloc/PeopleState.dart';
 import 'package:studioghibli/data/repository/species/SpeciesBloc.dart';
 import 'package:studioghibli/data/repository/species/SpeciesState.dart';
 import 'package:studioghibli/widgets/components/Text/cardSubText.dart';

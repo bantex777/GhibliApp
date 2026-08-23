@@ -3,11 +3,13 @@ import 'package:get_it/get_it.dart';
 import 'package:studioghibli/core/network/dio_client.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmBloc.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmRepository.dart';
-import 'package:studioghibli/data/repository/film/useCase/getFilmDetails.dart';
-import 'package:studioghibli/data/repository/location/LocationBloc.dart';
-import 'package:studioghibli/data/repository/location/LocationRepository.dart';
-import 'package:studioghibli/data/repository/people/PeopleBloc.dart';
-import 'package:studioghibli/data/repository/people/PeopleRepository.dart';
+import 'package:studioghibli/data/repository/film/use_case/getFilmDetails.dart';
+import 'package:studioghibli/data/repository/location/bloc/LocationBloc.dart';
+import 'package:studioghibli/data/repository/location/bloc/LocationRepository.dart';
+import 'package:studioghibli/data/repository/location/use_case/getLocationDetails.dart';
+import 'package:studioghibli/data/repository/people/bloc/PeopleBloc.dart';
+import 'package:studioghibli/data/repository/people/bloc/PeopleRepository.dart';
+import 'package:studioghibli/data/repository/people/use_case/getPersonDetails.dart';
 import 'package:studioghibli/data/repository/species/SpeciesBloc.dart';
 import 'package:studioghibli/data/repository/species/SpeciesRepository.dart';
 import 'package:studioghibli/data/repository/vehicles/CarBloc.dart';
@@ -54,11 +56,14 @@ void setupDI() {
   );
 
   locator.registerFactory<LocationBloc>(
-    () => LocationBloc(locator<LocationRepository>()),
+    () => LocationBloc(
+      locator<LocationRepository>(),
+      locator<Getlocationdetails>(),
+    ),
   );
 
   locator.registerFactory<PeopleBloc>(
-    () => PeopleBloc(locator<Peoplerepository>()),
+    () => PeopleBloc(locator<Peoplerepository>(), locator<GetPersonDetails>()),
   );
 
   locator.registerFactory<SpeciesBloc>(
@@ -66,4 +71,20 @@ void setupDI() {
   );
 
   locator.registerFactory<CarBloc>(() => CarBloc(locator<CarRepository>()));
+
+  locator.registerLazySingleton<GetPersonDetails>(
+    () => GetPersonDetails(
+      peoplerepository: locator<Peoplerepository>(),
+      filmRepository: locator<FilmRepository>(),
+      speciesRepository: locator<Speciesrepository>(),
+    ),
+  );
+
+  locator.registerLazySingleton<Getlocationdetails>(
+    () => Getlocationdetails(
+      locationRepository: locator<LocationRepository>(),
+      filmRepository: locator<FilmRepository>(),
+      peoplerepository: locator<Peoplerepository>(),
+    ),
+  );
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:studioghibli/data/repository/location/LocationBloc.dart';
-import 'package:studioghibli/data/repository/location/LocationState.dart';
+import 'package:studioghibli/data/repository/location/bloc/LocationBloc.dart';
+import 'package:studioghibli/data/repository/location/bloc/LocationState.dart';
 import 'package:studioghibli/widgets/components/Text/cardSubText.dart';
 import 'package:studioghibli/widgets/components/Text/cardTitleText.dart';
 
@@ -16,10 +16,11 @@ class LocationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LocationBloc, LocationState>(
       builder: (context, state) {
-        final count = state is LocationSuccess ? state.location.length : 0;
         if (state is LocationFailed) {
-          //TODO
+          print('error: ${state.message}');
         }
+        final count = state.locations.length;
+
         return Container(
           height: 130.h,
           margin: EdgeInsets.all(4.w),

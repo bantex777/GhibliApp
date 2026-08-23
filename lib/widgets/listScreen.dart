@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmBloc.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmState.dart';
-import 'package:studioghibli/data/repository/people/PeopleBloc.dart';
-import 'package:studioghibli/data/repository/people/PeopleState.dart';
+import 'package:studioghibli/data/repository/location/bloc/LocationBloc.dart';
+import 'package:studioghibli/data/repository/location/bloc/LocationState.dart';
+import 'package:studioghibli/data/repository/people/bloc/PeopleBloc.dart';
+import 'package:studioghibli/data/repository/people/bloc/PeopleState.dart';
 import 'package:studioghibli/core/contastants/constant.dart';
 import 'package:studioghibli/widgets/components/Cards/mainCard.dart';
 import 'package:studioghibli/widgets/components/Text/titleText.dart';
@@ -66,7 +68,10 @@ class ListScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => InfoScreen(id: film.id),
+                          builder: (_) => InfoScreen(
+                            type: CategoryType.films.name,
+                            id: film.id,
+                          ),
                         ),
                       );
                     },
@@ -86,40 +91,110 @@ class ListScreen extends StatelessWidget {
           appBar: AppBar(title: TitleText(text: category.name.toUpperCase())),
           body: BlocBuilder<PeopleBloc, PeopleState>(
             builder: (context, state) {
-              if (state is PeopleSuccess) {
-                return Column(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: state.people.length,
-                        itemBuilder: (context, index) {
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => BlocProvider.value(
-                                    value: context.read<PeopleBloc>(),
-                                    child: InfoScreen(
-                                      id: state.people[index].id,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            },
-                            child: MainCard(
-                              title: state.people[index].name,
-                              subText: state.people[index].gender,
-                              imagePath: state.people[index].url,
-                            ),
-                          );
-                        },
+              if (state.isLoading && state.people.isEmpty) {
+                return SizedBox(
+                  width: 200.0,
+                  height: 100.0,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.red,
+                    highlightColor: Colors.yellow,
+                    child: Text(
+                      'Shimmer',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 40.0,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
+                  ),
                 );
               }
-              return SizedBox();
+
+              if (state.error != null && state.people.isEmpty) {
+                return Center(child: Text(state.error!));
+              }
+
+              return ListView.builder(
+                itemCount: state.people.length,
+                itemBuilder: (context, index) {
+                  final people = state.people[index];
+
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => InfoScreen(
+                            type: CategoryType.people.name,
+                            id: people.id,
+                          ),
+                        ),
+                      );
+                    },
+                    child: MainCard(
+                      title: people.name,
+                      subText: people.gender,
+                      imagePath: people.gender,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        );
+      case CategoryType.locations:
+        return Scaffold(
+          appBar: AppBar(title: TitleText(text: category.name.toUpperCase())),
+          body: BlocBuilder<LocationBloc, LocationState>(
+            builder: (context, state) {
+              if (state.isLoading && state.locations.isEmpty) {
+                return SizedBox(
+                  width: 200.0,
+                  height: 100.0,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.red,
+                    highlightColor: Colors.yellow,
+                    child: Text(
+                      'Shimmer',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 40.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              if (state.error != null && state.locations.isEmpty) {
+                return Center(child: Text(state.error!));
+              }
+
+              return ListView.builder(
+                itemCount: state.locations.length,
+                itemBuilder: (context, index) {
+                  final location = state.locations[index];
+
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => InfoScreen(
+                            type: CategoryType.locations.name,
+                            id: location.id,
+                          ),
+                        ),
+                      );
+                    },
+                    child: MainCard(
+                      title: location.name,
+                      subText: location.climate,
+                      imagePath: location.climate,
+                    ),
+                  );
+                },
+              );
             },
           ),
         );
