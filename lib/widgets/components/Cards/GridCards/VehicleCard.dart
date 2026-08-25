@@ -18,7 +18,10 @@ class CarCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CarBloc, CarState>(
       builder: (context, state) {
-        final count = state is CarSuccess ? state.cars.length : 0;
+        final count = state.cars.length;
+
+        if (state.error != null) {}
+
         return Container(
           height: 130.h,
           margin: EdgeInsets.all(4.w),

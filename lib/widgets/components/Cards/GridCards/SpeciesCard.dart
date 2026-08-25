@@ -20,9 +20,9 @@ class SpeciesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SpeciesBloc, SpeciesState>(
       builder: (context, state) {
-        final count = state is SpeciesSuccess ? state.species.length : 0;
+        final count = state.species.length;
 
-        if (state is SpeciesFailure) {}
+        if (state.error != null) {}
         return Container(
           height: 130.h,
           margin: EdgeInsets.all(4.w),

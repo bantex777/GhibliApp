@@ -28,6 +28,7 @@ import 'package:studioghibli/widgets/components/Inputs/inputText.dart'
 import 'package:studioghibli/widgets/components/Text/subtText.dart';
 import 'package:studioghibli/widgets/components/Text/titleText.dart';
 import 'package:studioghibli/widgets/components/bottomNavigationBar.dart';
+import 'package:studioghibli/widgets/infoScreen.dart';
 import 'package:studioghibli/widgets/listScreen.dart';
 
 class Home extends StatelessWidget {
@@ -241,10 +242,23 @@ class Home extends StatelessWidget {
                                 state.films.length,
                               );
 
-                              return MainCard(
-                                title: state.films[featureFilm].title,
-                                subText: state.films[featureFilm].description,
-                                imagePath: state.films[featureFilm].image,
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => InfoScreen(
+                                        type: CategoryType.films.name,
+                                        id: state.films[featureFilm].id,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: MainCard(
+                                  title: state.films[featureFilm].title,
+                                  subText: state.films[featureFilm].description,
+                                  imagePath: state.films[featureFilm].image,
+                                ),
                               );
                             }
 
