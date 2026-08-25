@@ -2,8 +2,8 @@ import 'package:studioghibli/controller/parseUrl.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmRepository.dart';
 import 'package:studioghibli/data/repository/location/bloc/LocationRepository.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleRepository.dart';
-import 'package:studioghibli/data/repository/species/SpeciesRepository.dart';
-import 'package:studioghibli/data/repository/vehicles/CarRepository.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesRepository.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CarRepository.dart';
 import 'package:studioghibli/domain/entities/filmDetails.dart';
 
 class GetFilmDetails {
@@ -47,7 +47,7 @@ class GetFilmDetails {
         final parse = ParseUrl(url);
 
         if (parse.isNotEmpty && parse != 'vehicles') {
-          final people = await speciesRepo.geSpecy(url);
+          final people = await speciesRepo.getSpeciesWithURL(url);
 
           return [people];
         } else {
@@ -63,7 +63,7 @@ class GetFilmDetails {
         final parse = ParseUrl(url);
 
         if (parse.isNotEmpty && parse != 'vehicles') {
-          final people = await carRepo.getCar(url);
+          final people = await carRepo.getCarByURL(url);
 
           return [people];
         } else {

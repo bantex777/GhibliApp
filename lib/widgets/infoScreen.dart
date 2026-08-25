@@ -11,6 +11,14 @@ import 'package:studioghibli/data/repository/location/bloc/LocationState.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleBloc.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleEvent.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleState.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesBloc.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesEvent.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesState.dart';
+import 'package:studioghibli/data/repository/species/use_case/Get_SpeciesDetails.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CarBloc.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CarState.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CardEvent.dart';
+import 'package:studioghibli/data/repository/vehicles/use_case/Get_Car_Details.dart';
 import 'package:studioghibli/widgets/components/Text/subtText.dart';
 import 'package:studioghibli/widgets/components/Text/titleText.dart';
 
@@ -32,8 +40,11 @@ class _InfoScreenState extends State<InfoScreen> {
     } else if (widget.type == CategoryType.people.name) {
       context.read<PeopleBloc>().add(LoadPerson(widget.id));
     } else if (widget.type == CategoryType.locations.name) {
-      print(">>>>>>>>> enter location read add");
       context.read<LocationBloc>().add(GetLocationDetails(widget.id));
+    } else if (widget.type == CategoryType.species.name) {
+      context.read<SpeciesBloc>().add(LoadSpeciesDetails(widget.id));
+    } else if (widget.type == CategoryType.cars.name) {
+      context.read<CarBloc>().add(LoadCarDetails(widget.id));
     }
   }
 
@@ -421,6 +432,163 @@ class _InfoScreenState extends State<InfoScreen> {
                         SubText(
                           text:
                               '* Produced by: ${personDetails.location.films.length}',
+                        ),
+                        SizedBox(height: 6),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+
+          return SizedBox();
+        },
+      );
+    } else if (widget.type == CategoryType.species.name) {
+      return BlocBuilder<SpeciesBloc, SpeciesState>(
+        builder: (context, state) {
+          if (state.isLoading && state.speciesDetails == null) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (state.error != null && state.speciesDetails == null) {
+            return Scaffold(body: Center(child: Text(state.error!)));
+          }
+
+          final speciesDetails = state.speciesDetails;
+
+          if (speciesDetails != null) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('Person Details'),
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          'assets/images/img1.png',
+                          width: double.infinity,
+                          height: 150.h,
+                          fit: BoxFit.cover,
+                        ),
+                        SizedBox(height: 6),
+                        Center(
+                          child: TitleText(text: speciesDetails.species.name),
+                        ),
+                        SizedBox(height: 6),
+                        Row(
+                          children: [
+                            SubText(
+                              text:
+                                  'Age: ${speciesDetails.species.classification}',
+                            ),
+                            SizedBox(width: 10),
+                            Icon(Icons.remove_red_eye),
+                            SubText(
+                              text:
+                                  'Eye Color ${speciesDetails.species.eyeColors} ',
+                            ),
+                            SizedBox(width: 10),
+
+                            Icon(Icons.star),
+                            SubText(
+                              text: '${speciesDetails.films.first}% Match',
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 6),
+                        SubText(text: 'DIRECTOR & STUDIO'),
+                        SubText(
+                          text: '* Directed by: ${speciesDetails.species.name}',
+                        ),
+                        SubText(
+                          text:
+                              '* Produced by: ${speciesDetails.species.films.length}',
+                        ),
+                        SizedBox(height: 6),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
+
+          return SizedBox();
+        },
+      );
+    } else if (widget.type == CategoryType.cars.name) {
+      return BlocBuilder<CarBloc, CarState>(
+        builder: (context, state) {
+          if (state.isLoading && state.carDetails == null) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          if (state.error != null && state.carDetails == null) {
+            return Scaffold(body: Center(child: Text(state.error!)));
+          }
+
+          final carDetails = state.carDetails;
+
+          if (carDetails != null) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('Person Details'),
+                leading: IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+              body: SafeArea(
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          'assets/images/img1.png',
+                          width: double.infinity,
+                          height: 150.h,
+                          fit: BoxFit.cover,
+                        ),
+                        SizedBox(height: 6),
+                        Center(child: TitleText(text: carDetails.car.name)),
+                        SizedBox(height: 6),
+                        Row(
+                          children: [
+                            SubText(text: 'Age: ${carDetails.car.description}'),
+                            SizedBox(width: 10),
+                            Icon(Icons.remove_red_eye),
+                            SubText(text: 'Eye Color ${carDetails.car.pilot} '),
+                            SizedBox(width: 10),
+
+                            Icon(Icons.star),
+                            SubText(text: '${carDetails.car.length}% Match'),
+                          ],
+                        ),
+                        SizedBox(height: 6),
+                        SubText(text: 'DIRECTOR & STUDIO'),
+                        SubText(
+                          text: '* Directed by: ${carDetails.car.vehicleClass}',
+                        ),
+                        SubText(
+                          text: '* Produced by: ${carDetails.car.films.length}',
                         ),
                         SizedBox(height: 6),
                       ],

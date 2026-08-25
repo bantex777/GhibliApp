@@ -12,7 +12,13 @@ class CarRepository {
     return (response.data as List).map((json) => Vehicle.toJson(json)).toList();
   }
 
-  Future<Vehicle> getCar(String url) async {
+  Future<Vehicle> getCarByID(String id) async {
+    final response = await dio.get('/vehicles/$id');
+
+    return Vehicle.toJson(response.data);
+  }
+
+  Future<Vehicle> getCarByURL(String url) async {
     final response = await dio.get(url);
     return Vehicle.toJson(response.data);
   }

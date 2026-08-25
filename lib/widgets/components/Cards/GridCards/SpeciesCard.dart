@@ -5,8 +5,8 @@ import 'package:studioghibli/data/repository/location/bloc/LocationBloc.dart';
 import 'package:studioghibli/data/repository/location/bloc/LocationState.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleBloc.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleState.dart';
-import 'package:studioghibli/data/repository/species/SpeciesBloc.dart';
-import 'package:studioghibli/data/repository/species/SpeciesState.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesBloc.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesState.dart';
 import 'package:studioghibli/widgets/components/Text/cardSubText.dart';
 import 'package:studioghibli/widgets/components/Text/cardTitleText.dart';
 
@@ -18,13 +18,11 @@ class SpeciesCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SpeciesBloc, Speciesstate>(
+    return BlocBuilder<SpeciesBloc, SpeciesState>(
       builder: (context, state) {
         final count = state is SpeciesSuccess ? state.species.length : 0;
 
-        if (state is SpeciesFailure) {
-          print(state.message);
-        }
+        if (state is SpeciesFailure) {}
         return Container(
           height: 130.h,
           margin: EdgeInsets.all(4.w),

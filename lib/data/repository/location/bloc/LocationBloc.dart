@@ -34,13 +34,8 @@ class LocationBloc extends Bloc<Locationevent, LocationState> {
     Emitter<LocationState> emit,
   ) async {
     emit(state.copyWith(locationDetails: null, isLoading: true, error: null));
-
-    print(">>>>>>>>> emit load");
-
     try {
       final details = await useCaseLocation(event.id);
-
-      print(">>>>>>>>> enter location read add");
       emit(state.copyWith(locationDetails: details, isLoading: false));
     } catch (e) {
       emit(state.copyWith(isLoading: false, error: e.toString()));

@@ -10,6 +10,10 @@ import 'package:studioghibli/data/repository/location/bloc/LocationState.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleBloc.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleState.dart';
 import 'package:studioghibli/core/contastants/constant.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesBloc.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesState.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CarBloc.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CarState.dart';
 import 'package:studioghibli/widgets/components/Cards/mainCard.dart';
 import 'package:studioghibli/widgets/components/Text/titleText.dart';
 import 'package:studioghibli/widgets/infoScreen.dart';
@@ -191,6 +195,120 @@ class ListScreen extends StatelessWidget {
                       title: location.name,
                       subText: location.climate,
                       imagePath: location.climate,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        );
+
+      case CategoryType.species:
+        return Scaffold(
+          appBar: AppBar(title: TitleText(text: category.name.toUpperCase())),
+          body: BlocBuilder<SpeciesBloc, SpeciesState>(
+            builder: (context, state) {
+              if (state.isLoading && state.species.isEmpty) {
+                return SizedBox(
+                  width: 200.0,
+                  height: 100.0,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.red,
+                    highlightColor: Colors.yellow,
+                    child: Text(
+                      'Shimmer',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 40.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              if (state.error != null && state.species.isEmpty) {
+                return Center(child: Text(state.error!));
+              }
+
+              return ListView.builder(
+                itemCount: state.species.length,
+                itemBuilder: (context, index) {
+                  final species = state.species[index];
+
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => InfoScreen(
+                            type: CategoryType.species.name,
+                            id: species.id,
+                          ),
+                        ),
+                      );
+                    },
+                    child: MainCard(
+                      title: species.name,
+                      subText: species.eyeColors,
+                      imagePath: species.classification,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        );
+
+      case CategoryType.cars:
+        return Scaffold(
+          appBar: AppBar(title: TitleText(text: category.name.toUpperCase())),
+          body: BlocBuilder<CarBloc, CarState>(
+            builder: (context, state) {
+              if (state.isLoading && state.cars.isEmpty) {
+                return SizedBox(
+                  width: 200.0,
+                  height: 100.0,
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.red,
+                    highlightColor: Colors.yellow,
+                    child: Text(
+                      'Shimmer',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 40.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              }
+
+              if (state.error != null && state.cars.isEmpty) {
+                return Center(child: Text(state.error!));
+              }
+
+              return ListView.builder(
+                itemCount: state.cars.length,
+                itemBuilder: (context, index) {
+                  final car = state.cars[index];
+
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => InfoScreen(
+                            type: CategoryType.cars.name,
+                            id: car.id,
+                          ),
+                        ),
+                      );
+                    },
+                    child: MainCard(
+                      title: car.name,
+                      subText: car.description,
+                      imagePath: car.name,
                     ),
                   );
                 },

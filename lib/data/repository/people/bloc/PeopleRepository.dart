@@ -15,28 +15,23 @@ class Peoplerepository {
   }
 
   Future<People> getPeople(String url) async {
-    print("getpeople >>>>>>>>>>>>>>>>> url");
     try {
       final response = await dio.get(url);
 
       return People.toJson(response.data);
     } on DioException catch (e) {
       //TODO error
-      print('>>>>>>> error perople ${e.toString()}');
       rethrow;
     }
   }
 
   Future<People> getPerson(String id) async {
-    print("getperoson >>>>>>>>>>>>>>>>> $id");
     try {
       final response = await dio.get('/people/$id');
 
-      print("getperoson in >>>>>>>>>>>>>>>>> $response");
       return People.toJson(response.data);
     } on DioException catch (e) {
       //TODO error
-      print('>>>>>>> error person ${e.toString()}');
       rethrow;
     }
   }

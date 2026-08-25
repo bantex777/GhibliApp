@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:studioghibli/data/repository/species/SpeciesBloc.dart';
-import 'package:studioghibli/data/repository/species/SpeciesState.dart';
-import 'package:studioghibli/data/repository/vehicles/CarBloc.dart';
-import 'package:studioghibli/data/repository/vehicles/CarState.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesBloc.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesState.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CarBloc.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CarState.dart';
 import 'package:studioghibli/widgets/components/Text/cardSubText.dart';
 import 'package:studioghibli/widgets/components/Text/cardTitleText.dart';
 

@@ -12,10 +12,10 @@ import 'package:studioghibli/data/repository/location/bloc/LocationBloc.dart';
 import 'package:studioghibli/data/repository/location/bloc/LocationEvent.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleBloc.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleEvent.dart';
-import 'package:studioghibli/data/repository/species/SpeciesBloc.dart';
-import 'package:studioghibli/data/repository/species/SpeciesEvent.dart';
-import 'package:studioghibli/data/repository/vehicles/CarBloc.dart';
-import 'package:studioghibli/data/repository/vehicles/CardEvent.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesBloc.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesEvent.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CarBloc.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CardEvent.dart';
 import 'package:studioghibli/core/contastants/constant.dart';
 import 'package:studioghibli/widgets/components/Cards/GridCards/FilmCard.dart';
 import 'package:studioghibli/widgets/components/Cards/GridCards/LocationCard.dart';
@@ -180,13 +180,38 @@ class Home extends StatelessWidget {
                                   ),
                                 ),
 
-                                SpeciesCard(
-                                  title: menuData[3].title,
-                                  imagePath: menuData[3].imageUrl,
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => ListScreen(
+                                          category: CategoryType.species,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: SpeciesCard(
+                                    title: menuData[3].title,
+                                    imagePath: menuData[3].imageUrl,
+                                  ),
                                 ),
-                                CarCard(
-                                  title: menuData[4].title,
-                                  imagePath: menuData[4].imageUrl,
+
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => ListScreen(
+                                          category: CategoryType.cars,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: CarCard(
+                                    title: menuData[4].title,
+                                    imagePath: menuData[4].imageUrl,
+                                  ),
                                 ),
                               ],
                             );
@@ -201,14 +226,6 @@ class Home extends StatelessWidget {
 
                         BlocBuilder<FilmBloc, FilmState>(
                           builder: (context, state) {
-                            print(
-                              'FILM STATE: '
-                              'films=${state.films.length}, '
-                              'details=${state.filmDetails != null}, '
-                              'loading=${state.isLoading}, '
-                              'error=${state.error}',
-                            );
-
                             if (state.isLoading && state.films.isEmpty) {
                               return const Center(
                                 child: CircularProgressIndicator(),

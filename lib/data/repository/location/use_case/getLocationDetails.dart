@@ -17,19 +17,13 @@ class Getlocationdetails {
   Future<LocationDetails> call(String id) async {
     final location = await locationRepository.getLocationById(id);
 
-    print(">>>>>>>>>>> location done");
-
     final films = await Future.wait(
       location.films.map((url) => filmRepository.getFilmsByUrl(url)),
     );
 
-    print(">>>>>>>>>>> film done");
-
     final residents = await Future.wait(
       location.residents.map((url) => peoplerepository.getPeople(url)),
     );
-
-    print(">>>>>>>>>>> person done");
 
     return LocationDetails(
       location: location,

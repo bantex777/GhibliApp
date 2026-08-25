@@ -2,7 +2,7 @@ import 'package:studioghibli/controller/parseUrl.dart';
 import 'package:studioghibli/data/repository/film/bloc/FilmRepository.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleRepository.dart';
 import 'package:studioghibli/data/repository/people/entities/Person_Details.dart';
-import 'package:studioghibli/data/repository/species/SpeciesRepository.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesRepository.dart';
 
 class GetPersonDetails {
   final Peoplerepository peoplerepository;
@@ -23,7 +23,7 @@ class GetPersonDetails {
     );
 
     final species = person.species.isNotEmpty
-        ? await speciesRepository.geSpecy(person.species)
+        ? await speciesRepository.getSpeciesWithURL(person.species)
         : null;
 
     return PersonDetails(person: person, species: species, films: films);

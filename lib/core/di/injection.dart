@@ -10,10 +10,12 @@ import 'package:studioghibli/data/repository/location/use_case/getLocationDetail
 import 'package:studioghibli/data/repository/people/bloc/PeopleBloc.dart';
 import 'package:studioghibli/data/repository/people/bloc/PeopleRepository.dart';
 import 'package:studioghibli/data/repository/people/use_case/getPersonDetails.dart';
-import 'package:studioghibli/data/repository/species/SpeciesBloc.dart';
-import 'package:studioghibli/data/repository/species/SpeciesRepository.dart';
-import 'package:studioghibli/data/repository/vehicles/CarBloc.dart';
-import 'package:studioghibli/data/repository/vehicles/CarRepository.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesBloc.dart';
+import 'package:studioghibli/data/repository/species/bloc/SpeciesRepository.dart';
+import 'package:studioghibli/data/repository/species/use_case/Get_SpeciesDetails.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CarBloc.dart';
+import 'package:studioghibli/data/repository/vehicles/bloc/CarRepository.dart';
+import 'package:studioghibli/data/repository/vehicles/use_case/Get_Car_Details.dart';
 
 final locator = GetIt.instance;
 
@@ -67,10 +69,13 @@ void setupDI() {
   );
 
   locator.registerFactory<SpeciesBloc>(
-    () => SpeciesBloc(locator<Speciesrepository>()),
+    () =>
+        SpeciesBloc(locator<Speciesrepository>(), locator<GetSpeciesDetails>()),
   );
 
-  locator.registerFactory<CarBloc>(() => CarBloc(locator<CarRepository>()));
+  locator.registerFactory<CarBloc>(
+    () => CarBloc(locator<CarRepository>(), locator<GetCarDetails>()),
+  );
 
   locator.registerLazySingleton<GetPersonDetails>(
     () => GetPersonDetails(
@@ -85,6 +90,21 @@ void setupDI() {
       locationRepository: locator<LocationRepository>(),
       filmRepository: locator<FilmRepository>(),
       peoplerepository: locator<Peoplerepository>(),
+    ),
+  );
+
+  locator.registerLazySingleton<GetSpeciesDetails>(
+    () => GetSpeciesDetails(
+      speciesrepository: locator<Speciesrepository>(),
+      filmRepository: locator<FilmRepository>(),
+      peoplerepository: locator<Peoplerepository>(),
+    ),
+  );
+
+  locator.registerLazySingleton<GetCarDetails>(
+    () => GetCarDetails(
+      carRepository: locator<CarRepository>(),
+      filmRepository: locator<FilmRepository>(),
     ),
   );
 }

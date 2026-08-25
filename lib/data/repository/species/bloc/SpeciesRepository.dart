@@ -12,8 +12,13 @@ class Speciesrepository {
     return (response.data as List).map((json) => Species.toJson(json)).toList();
   }
 
-  Future<Species> geSpecy(String url) async {
-    print("ahahaha >>>>>>> $url >>>>>>>>>>>>>>>>>");
+  Future<Species> getSpeciesWithId(String id) async {
+    final response = await dio.get('/species/$id');
+
+    return Species.toJson(response.data);
+  }
+
+  Future<Species> getSpeciesWithURL(String url) async {
     final response = await dio.get(url);
     return Species.toJson(response.data);
   }

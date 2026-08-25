@@ -16,9 +16,7 @@ class FilmCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<FilmBloc, FilmState>(
       builder: (context, state) {
-        if (state is FilmFailure) {
-          print('error: ${state.message}');
-        }
+        if (state is FilmFailure) {}
 
         final count = state.films.length;
 

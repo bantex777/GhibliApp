@@ -16,9 +16,7 @@ class LocationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LocationBloc, LocationState>(
       builder: (context, state) {
-        if (state is LocationFailed) {
-          print('error: ${state.message}');
-        }
+        if (state is LocationFailed) {}
         final count = state.locations.length;
 
         return Container(
